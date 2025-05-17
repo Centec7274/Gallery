@@ -27,6 +27,32 @@
             border-radius: 8px;
             padding: 15px;
             background-color: #f9f9f9;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .painting-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .painting-img-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+        .painting-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .painting-card:hover .painting-img-container img {
+            transform: scale(1.05);
         }
         .painting-title {
             font-weight: bold;
@@ -43,6 +69,102 @@
             background-color: #f0f0f0;
             border-radius: 8px;
         }
+        
+        /* Modal styles */
+        #modal-background {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+        #modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #modal-image-container {
+            width: 100%;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        #modal-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        #modal-info {
+            text-align: center;
+            width: 100%;
+        }
+        #modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        #modal-artist {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        #modal-size {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #d35400;
+            margin-bottom: 5px;
+        }
+        #modal-material {
+            font-style: italic;
+            color: #555;
+        }
+        #modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f00;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        @media (max-width: 768px) {
+            .painting-list {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            .painting-img-container {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .painting-list {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -50,7 +172,10 @@
     
     <div class="painting-list">
         <!-- Bức 1 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 1', 'image-main/Picture1.png', 'Nguyễn Văn Thể', '79 x 125 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture1.png" alt="Tranh số 1">
+            </div>
             <div class="painting-title">Tranh số 1</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -58,7 +183,10 @@
         </div>
         
         <!-- Bức 2 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 2', 'image-main/Picture2.png', 'Nguyễn Văn Thể', '99 x 104 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture2.png" alt="Tranh số 2">
+            </div>
             <div class="painting-title">Tranh số 2</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -66,7 +194,10 @@
         </div>
         
         <!-- Bức 3 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 3', 'image-main/Picture3.png', 'Nguyễn Văn Thể', '118 x 100 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture3.png" alt="Tranh số 3">
+            </div>
             <div class="painting-title">Tranh số 3</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -74,7 +205,10 @@
         </div>
         
         <!-- Bức 4 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 4', 'image-main/Picture4.png', 'Nguyễn Văn Thể', '133 x 113 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture4.png" alt="Tranh số 4">
+            </div>
             <div class="painting-title">Tranh số 4</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -82,7 +216,10 @@
         </div>
         
         <!-- Bức 5 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 5', 'image-main/Picture5.png', 'Nguyễn Văn Thể', '139 x 110 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture5.png" alt="Tranh số 5">
+            </div>
             <div class="painting-title">Tranh số 5</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -90,7 +227,10 @@
         </div>
         
         <!-- Bức 6 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 6', 'image-main/Picture6.png', 'Nguyễn Văn Thể', '133 x 176 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture6.png" alt="Tranh số 6">
+            </div>
             <div class="painting-title">Tranh số 6</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -98,7 +238,10 @@
         </div>
         
         <!-- Bức 7 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 7', 'image-main/Picture7.png', 'Nguyễn Văn Thể', '173 x 116 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture7.png" alt="Tranh số 7">
+            </div>
             <div class="painting-title">Tranh số 7</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -106,7 +249,10 @@
         </div>
         
         <!-- Bức 8 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 8', 'image-main/Picture8.png', 'Nguyễn Văn Thể', '123 x 98 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture8.png" alt="Tranh số 8">
+            </div>
             <div class="painting-title">Tranh số 8</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -114,7 +260,10 @@
         </div>
         
         <!-- Bức 9 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 9', 'image-main/Picture9.png', 'Nguyễn Văn Thể', '174 x 115 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture9.png" alt="Tranh số 9">
+            </div>
             <div class="painting-title">Tranh số 9</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -122,7 +271,10 @@
         </div>
         
         <!-- Bức 10 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 10', 'image-main/Picture10.png', 'Nguyễn Văn Thể', '175 x 91 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture10.png" alt="Tranh số 10">
+            </div>
             <div class="painting-title">Tranh số 10</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -130,7 +282,10 @@
         </div>
         
         <!-- Bức 11 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 11', 'image-main/Picture11.png', 'Nguyễn Văn Thể', '123 x 94 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture11.png" alt="Tranh số 11">
+            </div>
             <div class="painting-title">Tranh số 11</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -138,7 +293,10 @@
         </div>
         
         <!-- Bức 12 -->
-        <div class="painting-card">
+        <div class="painting-card" onclick="openModal('Tranh số 12', 'image-main/Picture12.png', 'Nguyễn Văn Thể', '175 x 116 cm', 'Acrylic')">
+            <div class="painting-img-container">
+                <img src="image-main/Picture12.png" alt="Tranh số 12">
+            </div>
             <div class="painting-title">Tranh số 12</div>
             <div class="painting-detail"><strong>Họa sĩ:</strong> Nguyễn Văn Thể</div>
             <div class="painting-detail"><strong>Chất liệu:</strong> Acrylic</div>
@@ -151,5 +309,54 @@
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/tranh-nguyen-van-the" alt="QR Code">
         <p>Quét mã QR để xem danh sách tranh mọi lúc</p>
     </div>
+
+    <!-- Modal Popup -->
+    <div id="modal-background">
+        <div id="modal-content">
+            <button id="modal-close">&times;</button>
+            <div id="modal-image-container">
+                <img id="modal-image" src="" alt="Popup Image">
+            </div>
+            <div id="modal-info">
+                <h3 id="modal-title"></h3>
+                <p id="modal-artist"></p>
+                <p id="modal-size"></p>
+                <p id="modal-material"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modalBackground = document.getElementById('modal-background');
+        const modalContent = document.getElementById('modal-content');
+        const modalImage = document.getElementById('modal-image');
+        const modalTitle = document.getElementById('modal-title');
+        const modalArtist = document.getElementById('modal-artist');
+        const modalSize = document.getElementById('modal-size');
+        const modalMaterial = document.getElementById('modal-material');
+        const modalClose = document.getElementById('modal-close');
+
+        function openModal(title, imageSrc, artist, size, material) {
+            modalImage.src = imageSrc;
+            modalTitle.textContent = title;
+            modalArtist.textContent = 'Họa sĩ: ' + artist;
+            modalSize.textContent = 'Kích thước: ' + size;
+            modalMaterial.textContent = 'Chất liệu: ' + material;
+            modalBackground.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        modalClose.addEventListener('click', () => {
+            modalBackground.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        modalBackground.addEventListener('click', (e) => {
+            if (e.target === modalBackground) {
+                modalBackground.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
 </body>
 </html>
